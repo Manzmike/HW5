@@ -9,7 +9,7 @@ using namespace std;
 finder::finder(string s)									// constructor
 {
 	to_find = s;											// setup string to find in incoming characters
-	State = Type_1;											// set initial state to "None"
+	State = Dollar;											// set initial state to "None"
 }
 
 finder::~finder()			// destructor
@@ -32,6 +32,7 @@ bool finder::find(char c)
 		if(State == Dollar ){
 			if(c == '$'){
 				State=Type_1;
+				cout<<"Going to Type 1"<<endl;
 			}
 			else{
 				State=Dollar;
@@ -104,14 +105,29 @@ bool finder::find(char c)
 		}
 
 		else if(State == Data){
-			cout<<"At Data!"<<endl;
+			cout<<"Searching!"<<endl;
+			cout<<c<<endl;
 			if(c =='*'){
 				State = Star;
 			}
+			else if('$' == c){
+				cout<<"Dollar State"<<endl;
+				State = Dollar;
+			}
+
 		}
 
-		else if(State = Star){
+		else if(State == Star){
 			cout<<"At Star!"<<endl;
+			State=Check_Sum;
+			if(c == '$'){
+				State = Dollar;
+			}
+
+		}
+		else if(State == Check_Sum){
+
+			cout<<c<<endl;
 			exit(1);
 		}
 	return false;	
