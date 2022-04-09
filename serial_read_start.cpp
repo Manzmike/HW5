@@ -62,12 +62,14 @@ int main(int argc, char *argv[])
 		//reads from port one bit at a time
 		int n = read(sp, &read_buff, sizeof(read_buff));
 
+		
+
 		if(find_1.find(read_buff) == true) {
-			cout << "Found: " << TYPE1 << " count:"<< endl;
+			cout << "Found: " << TYPE1 <<endl;
 		}
 
 			//fix print statements  
-		  printf("Read byte:%c = %d\n", read_buff, read_buff);
+		  //printf("Read byte:%c = %d\n", read_buff, read_buff);
 
 		}
 		
