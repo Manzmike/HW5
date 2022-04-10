@@ -28,23 +28,17 @@
 
 using namespace std;
 
-const string TYPE1("GPGGA");
-const string TYPE2("GPGSA");
-const string TYPE3("GPGSV");
-const string TYPE4("GPRMC");
+const string TYPE1("GP");
 
 int main(int argc, char *argv[])
 {
 	//create insteacne of class
-	int i=0;
-
 	//unsigned char read_buff;
 	ifstream infile;
 	char read_buff;
-	finder find_1(TYPE1);
-	finder find_2(TYPE2);
-	finder find_3(TYPE3);
-	finder find_4(TYPE4);
+	finder find(TYPE1);
+
+
 
 	
 	cout << argv[1] << endl;
@@ -58,20 +52,22 @@ int main(int argc, char *argv[])
 	else
 		cout << "port successfully opened" << endl;
 
+
 	while(1){
 		//reads from port one bit at a time
 		int n = read(sp, &read_buff, sizeof(read_buff));
 
 		
 
-		if(find_1.find(read_buff) == true) {
-			cout << "Found: " << TYPE1 <<endl;
+		if(find.find(read_buff) == true) {
+			
+			find.print();
+			
 		}
 
-			//fix print statements  
-		  //printf("Read byte:%c = %d\n", read_buff, read_buff);
+	}
 
-		}
+		cout<<"Done"<<endl;
 		
 	close(sp);
 }

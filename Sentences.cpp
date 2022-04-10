@@ -20,19 +20,20 @@ finder::~finder()			// destructor
 bool finder::find(char c)
 {
 	int i;
-	int start;												// start of the 3-character string
+	int start;
+	string temp;
+	string Typetemp;												// start of the 3-character string
 
 							
 	
 //type	
 
 
-	/*if(State == Type) {
-		cout<<"Type state"<<endl;*/
+	
 		if(State == Dollar ){
 			if(c == '$'){
 				State=Type_1;
-				cout<<"Going to Type 1"<<endl;
+				//cout<<"Going to Type 1"<<endl;
 			}
 			else{
 				State=Dollar;
@@ -41,98 +42,152 @@ bool finder::find(char c)
 
 
 		else if(State == Type_1 ){
-			cout<<"State 1 "<<"To Find: "<<to_find[0]<<" C: "<<c<<endl;
 
 			if(c == to_find[0]){
-				//When G = G
-				cout<<"Going to Type 2"<<endl<<endl;
-				State=Type_2;
+				//cout<<"Going to Type 2"<<endl;
+
+				
+				this->Message_type+=c;
+
+				State=Type_2;	
 			}
+			else if(c != to_find[0]){
+				State = Type_1;
+			}
+
 			if('$' == c){
-				cout<<"Dollar State"<<endl;
+				//cout<<"Dollar State"<<endl;
 				State = Dollar;
 			}
 			
 		}
 
 		else if(State == Type_2 ){
-			cout<<"State 2 "<<"To Find: "<<to_find[1]<<" C: "<<c<<endl;
 		
 			if(c == to_find[1]){
-				cout<<"Going to Type 3"<<endl<<endl;
+				//cout<<"Going to Type 3"<<endl;
+
+				this->Message_type+=c;
+
 				State=Type_3;
+				
 			}
+			else if(c != to_find[1]){
+				State = Type_1;
+			}
+
 			if('$' == c){
-				cout<<"Dollar State"<<endl;
+				//cout<<"Dollar State"<<endl;
 				State = Dollar;
 			}
 		}
 
 		else if(State == Type_3 ){
-			cout<<"State 3 "<<"To Find: "<<to_find[2]<<" C: "<<c<<endl;
-			if(c == to_find[2]){
-				cout<<"Going to Type 4"<<endl<<endl;
+
+			if(c == 'G' || c == 'R'){
+				//cout<<"Going to Type 4"<<endl;
+
+				this->Message_type+=c;
+
 				State=Type_4;
+				
+			}
+			else if(c != 'G' || c != 'R'){
+				State = Type_1;
 			}
 			if('$' == c){
-				cout<<"Dollar State"<<endl;
+				//cout<<"Dollar State"<<endl;
 				State = Dollar;
 			}
 		}
 
 		else if(State == Type_4 ){
-			cout<<"State 4 "<<"To Find: "<<to_find[3]<<" C: "<<c<<endl;
-			if(c == to_find[3]){
-				cout<<"Going to Type 5"<<endl<<endl;
+			
+			if(c == 'G' || c == 'S'|| c == 'M'){
+				//cout<<"Going to Type 5"<<endl;
+
+				this->Message_type+=c;
+
 				State=Type_5;
+				
+			}
+			else if(c != to_find[3]){
+				State = Type_1;
 			}
 			if('$' == c){
-				cout<<"Dollar State"<<endl;
+				//cout<<"Dollar State"<<endl;
 				State = Dollar;	
 			}
 		}
 		
 		else if(State == Type_5 ){
-			cout<<"State 5 "<<"To Find: "<<to_find[4]<<" C: "<<c<<endl;
-			if(c == to_find[4]){
+			
+			if(c == 'A' || c == 'V'|| c == 'C'){
 				//return true;
+				this->Message_type+=c;
+
 				State = Data;
 			}
+			else if(c != to_find[4]){
+				State = Type_1;
+			}
 			if('$' == c){
-				cout<<"Dollar State"<<endl;
+				//cout<<"Dollar State"<<endl;
 				State = Dollar;
 			}
 		}
 
 		else if(State == Data){
-			cout<<"Searching!"<<endl;
-			cout<<c<<endl;
+
 			if(c =='*'){
-				State = Star;
+				this->newdata=data;
+				this->data="";
+				State = Check_Sum1;
 			}
 			else if('$' == c){
-				cout<<"Dollar State"<<endl;
+				//cout<<"Dollar State"<<endl;
 				State = Dollar;
 			}
-
+			else{
+			this-> data+=c;
+			}
 		}
 
-		else if(State == Star){
-			cout<<"At Star!"<<endl;
-			State=Check_Sum;
+		else if(State == Check_Sum1){
+
+			//cout<<"Check Sum Val:"<<c<<endl;
+			State=Check_Sum2;
 			if(c == '$'){
 				State = Dollar;
 			}
 
 		}
-		else if(State == Check_Sum){
 
-			cout<<c<<endl;
-			exit(1);
+		else if(State == Check_Sum2){
+
+			//cout<<"Check Sum Val:"<<c<<endl;
+			State=Check_Sum2;
+			if(c == '$'){
+				State = Dollar;
+			}
+			return true;
 		}
+
+		
 	return false;	
 	}
-	
-							
+					
 
+	void finder::print(){
+		cout<<"Message type:"<<Message_type<<endl;
+		cout<<"Message data:"<<newdata<<endl;
+		cout<<"Message checksum:"<<Checksum<<endl<<endl;
+
+		Message_type="";
+		Checksum="";
+		newdata="";
+
+		
+	}
+	
 
